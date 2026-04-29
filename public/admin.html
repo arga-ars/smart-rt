@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Smart RT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<div id="emergencyOverlay" 
+  class="hidden fixed inset-0 bg-red-700 bg-opacity-90 flex items-center justify-center z-50">
+  
+  <div class="text-center">
+    <h1 class="text-6xl font-bold animate-pulse">🚨 EMERGENCY 🚨</h1>
+    <p id="emergencyText" class="mt-4 text-6xl"></p>
+
+    <button onclick="ackEmergency()" 
+      class="mt-6 px-6 py-3 bg-black text-white text-xl rounded">
+      ACK / Clear
+    </button>
+  </div>
+</div>
+
+<body class="bg-gray-900 text-white p-6">
+
+<h2 class="text-2xl font-bold mb-4">🚨 Admin Dashboard</h2>
+
+<!-- FILTER -->
+<div class="mb-4 flex gap-2">
+  <button onclick="setFilter('all')" class="px-3 py-1 bg-gray-700 rounded">All</button>
+  <button onclick="setFilter('pending')" class="px-3 py-1 bg-yellow-600 rounded">Pending</button>
+  <button onclick="setFilter('approved')" class="px-3 py-1 bg-green-600 rounded">Approved</button>
+</div>
+
+<!-- PANIC -->
+<h3 class="text-lg font-bold mb-2">🚨 Panic Log</h3>
+<ul id="panicList" class="mb-6 space-y-1"></ul>
+
+<!-- TABLE -->
+<h3 class="text-lg font-bold mb-2">👥 Data Warga</h3>
+
+<table class="w-full text-sm border border-gray-700">
+  <thead class="bg-gray-800">
+    <tr>
+      <th class="p-2">Username</th>
+      <th>Nama</th>
+      <th>No Rumah</th>
+      <th>No HP</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="userTable"></tbody>
+</table>
+
+<div id="connStatus" class="fixed bottom-2 left-1/2 -translate-x-1/2 text-gray-200 text-sm bg-gray-800 px-3 py-1 rounded-lg shadow">
+  Disconnected
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="public.js"></script>
+<script src="admin.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart RT - Warga</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+<!-- TOP STATUS BAR -->
+<div class="fixed top-0 left-0 right-0 bg-gray-800 text-sm px-3 py-2 flex justify-between z-50">
+  <div id="welcome">Silakan Login</div>
+  <!--<div id="runText" class="hidden">Selamat Datang</div>-->
+  <div class="right-2 text-sm">
+    <span id="connStatus">Disconnected</span></div>
+
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="pt-12 pb-20 px-4">
+
+  <!-- ================= AUTH VIEW ================= -->
+  <div id="authSection" class="max-w-md mx-auto mt-10">
+
+    <h1 class="text-center text-2xl font-bold mb-6">
+      Smart RT 01/01<br>
+      <span class="text-sm text-gray-400">Cilangkap - Jakarta Timur</span>
+    </h1>
+
+    <input id="username" class="w-full mb-2 p-3 rounded bg-gray-800" placeholder="Username">
+    <input id="password" type="password" class="w-full mb-2 p-3 rounded bg-gray-800" placeholder="Password">
+
+    <div id="registerFields" class="hidden">
+      <input id="nama" class="w-full mb-2 p-3 rounded bg-gray-800" placeholder="Nama lengkap">
+      <input id="no_rumah" class="w-full mb-2 p-3 rounded bg-gray-800" placeholder="No Rumah">
+      <input id="no_hp" class="w-full mb-2 p-3 rounded bg-gray-800" placeholder="No HP">
+    </div>
+
+    <div class="flex gap-2">
+      <button id="btnLogin" onclick="handleLoginClick()" class="flex-1 bg-blue-600 p-3 rounded-lg">
+        Login
+      </button>
+      <button id="btnRegister" onclick="register()" class="flex-1 bg-green-600 p-3 rounded-lg">
+        Register
+      </button>
+    </div>
+
+    <button id="btnDevLogin" onclick="loginDev()" class="w-full mt-3 bg-purple-600 p-2 rounded text-xs opacity-60">
+      🔧 Dev Login
+    </button>
+  </div>
+
+  <!-- ================= PORTAL VIEW ================= -->
+  <div id="portalSection" class="hidden">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-4">
+      <div>
+        <h2 class="text-lg font-bold">Portal Warga</h2>
+        <!--<p id="welcome" class="text-sm text-gray-400">
+          Halo, <span id="userName"></span>
+        </p>-->
+      </div>
+      <button onclick="logout()" class="text-sm text-gray-400 underline">
+        Logout
+      </button>
+    </div>
+
+    <!-- PANIC BUTTON (HERO) -->
+    <button onclick="panic()" 
+      class="w-full bg-red-600 active:scale-95 transition transform py-10 rounded-2xl text-4xl font-bold shadow-lg mb-4">
+      🚨 PANIC 🚨
+    </button>
+
+    <!-- QUICK ACTION -->
+    <div class="grid grid-cols-2 gap-3 mb-4">
+
+      <button class="bg-gray-800 p-4 rounded-xl">
+        📢 Lapor
+      </button>
+
+      <button class="bg-gray-800 p-4 rounded-xl">
+        🏠 Tamu
+      </button>
+
+      <button class="bg-gray-800 p-4 rounded-xl">
+        📞 Darurat
+      </button>
+
+      <button class="bg-gray-800 p-4 rounded-xl">
+        📋 Info
+      </button>
+
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="bg-gray-800 p-4 rounded-xl">
+      <h3 class="font-bold mb-2">Pengumuman</h3>
+      <p class="text-sm text-gray-400">
+        Belum ada pengumuman
+      </p>
+    </div>
+
+  </div>
+
+  <!-- STATUS -->
+  <p id="status" class="mt-4 text-center text-sm text-yellow-400"></p>
+
+</div>
+
+<!-- ================= BOTTOM NAV ================= -->
+<div class="fixed bottom-0 left-0 right-0 bg-gray-800 flex justify-around py-2 text-sm">
+
+  <button onclick="showPortal()" id="btnHome" class="flex flex-col items-center p-2 rounded-lg transition">
+    🏠
+    <span>Home</span>
+  </button>
+
+  <button onclick="highlightNav('btnNotif')" id="btnNotif" class="flex flex-col items-center p-2 rounded-lg transition">
+    🔔
+    <span>Notif</span>
+  </button>
+
+  <button onclick="highlightNav('btnProfile')" id="btnProfile" class="flex flex-col items-center p-2 rounded-lg transition">
+    👤
+    <span>Profil</span>
+  </button>
+
+</div>
+
+<!-- FOOTER STATUS -->
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+<script src="public.js"></script>
+
+</body>
+</html>
