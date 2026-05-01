@@ -23,6 +23,12 @@ app.use(express.static('public'))
 // Routes
 app.use('/auth', require('./routes/auth'))
 app.use('/panic', require('./routes/panic'))
+app.use('/notif', require('./routes/notif'))
+app.use('/emergency', require('./routes/emergency'))
+app.use('/report', require('./routes/report'))
+app.use('/guest', require('./routes/guest'))
+app.use('/info', require('./routes/info'))
+app.use('/announcement', require('./routes/announcement'))
 app.use('/admin', require('./routes/admin'))
 
 // realtime

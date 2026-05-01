@@ -54,42 +54,42 @@
 
   <!-- ================= PORTAL VIEW ================= -->
   <div id="portalSection" class="hidden">
-
-    <!-- HEADER -->
-    <div class="flex justify-between items-center mb-4">
-      <div>
-        <h2 class="text-lg font-bold">Portal Warga</h2>
-        <!--<p id="welcome" class="text-sm text-gray-400">
-          Halo, <span id="userName"></span>
-        </p>-->
+    <div id="homeSection">
+      <!-- HEADER -->
+      <div class="flex justify-between items-center mb-4">
+        <div>
+          <h2 class="text-lg font-bold">🏠 Portal Warga</h2>
+          <!--<p id="welcome" class="text-sm text-gray-400">
+            Halo, <span id="userName"></span>
+          </p>-->
+        </div>
+        <button onclick="logout()" class="text-sm text-gray-400 underline">
+          Logout
+        </button>
       </div>
-      <button onclick="logout()" class="text-sm text-gray-400 underline">
-        Logout
+
+      <!-- PANIC BUTTON (HERO) -->
+      <button id="panicBtn" onclick="panic()" 
+        class="w-full bg-red-600 active:scale-95 transition transform py-10 rounded-2xl text-4xl font-bold shadow-lg mb-4">
+        🚨 PANIC 🚨
       </button>
-    </div>
 
-    <!-- PANIC BUTTON (HERO) -->
-    <button onclick="panic()" 
-      class="w-full bg-red-600 active:scale-95 transition transform py-10 rounded-2xl text-4xl font-bold shadow-lg mb-4">
-      🚨 PANIC 🚨
-    </button>
+      <!-- QUICK ACTION -->
+      <div class="grid grid-cols-2 gap-3 mb-4">
 
-    <!-- QUICK ACTION -->
-    <div class="grid grid-cols-2 gap-3 mb-4">
-
-      <button class="bg-gray-800 p-4 rounded-xl">
+      <button onclick="showReport()" id="btnReport" class="bg-gray-800 p-4 rounded-xl">
         📢 Lapor
       </button>
 
-      <button class="bg-gray-800 p-4 rounded-xl">
+      <button onclick="showGuest()" id="btnGuest" class="bg-gray-800 p-4 rounded-xl">
         🏠 Tamu
       </button>
 
-      <button class="bg-gray-800 p-4 rounded-xl">
+      <button onclick="showEmergency()" id="btnEmergency" class="bg-gray-800 p-4 rounded-xl">
         📞 Darurat
       </button>
 
-      <button class="bg-gray-800 p-4 rounded-xl">
+      <button onclick="showInfo()" id="btnInfo" class="bg-gray-800 p-4 rounded-xl">
         📋 Info
       </button>
 
@@ -98,9 +98,112 @@
     <!-- INFO PANEL -->
     <div class="bg-gray-800 p-4 rounded-xl">
       <h3 class="font-bold mb-2">Pengumuman</h3>
-      <p class="text-sm text-gray-400">
+      <p id="announcementText" class="text-sm text-gray-400">
         Belum ada pengumuman
       </p>
+    </div>
+    </div>
+
+    <!-- MODALS -->
+    <!-- REPORT MODAL -->
+    <div id="reportModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-gray-800 p-6 rounded-lg w-11/12 max-w-md max-h-screen overflow-y-auto">
+        <h3 class="text-lg font-bold mb-4">Lapor Masalah</h3>
+        <select id="reportCategory" class="w-full mb-3 p-3 rounded bg-gray-700">
+          <option value="Keamanan">Keamanan</option>
+          <option value="Kebersihan">Kebersihan</option>
+          <option value="Fasilitas">Fasilitas</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+        <textarea id="reportDescription" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="Deskripsikan masalah..." rows="3"></textarea>
+        <input id="reportLocation" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="Lokasi (opsional)">
+        <label class="block text-sm mb-2">Foto (opsional)</label>
+        <input id="reportPhoto" type="file" accept="image/*" class="w-full mb-4 p-2 rounded bg-gray-700">
+        <div class="flex gap-2">
+          <button onclick="submitReport()" class="flex-1 bg-blue-600 p-3 rounded">Kirim Laporan</button>
+          <button onclick="closeModal('reportModal')" class="flex-1 bg-gray-600 p-3 rounded">Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUEST MODAL -->
+    <div id="guestModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-gray-800 p-6 rounded-lg w-11/12 max-w-md max-h-screen overflow-y-auto">
+        <h3 class="text-lg font-bold mb-4">Catat Tamu</h3>
+        <input id="guestName" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="Nama tamu">
+        <input id="guestPhone" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="No HP tamu">
+        <input id="guestPurpose" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="Tujuan kunjungan">
+        <input id="guestHouse" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="No rumah yang dikunjungi">
+        <label class="block text-sm mb-2">Foto (opsional)</label>
+        <input id="guestPhoto" type="file" accept="image/*" class="w-full mb-4 p-2 rounded bg-gray-700">
+        <div class="flex gap-2">
+          <button onclick="submitGuest()" class="flex-1 bg-green-600 p-3 rounded">Catat Tamu</button>
+          <button onclick="closeModal('guestModal')" class="flex-1 bg-gray-600 p-3 rounded">Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMERGENCY MODAL -->
+    <div id="emergencyModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-gray-800 p-6 rounded-lg w-11/12 max-w-md max-h-screen overflow-y-auto">
+        <h3 class="text-lg font-bold mb-4 text-red-400">Darurat</h3>
+        <div id="emergencyContacts" class="space-y-2 mb-4">
+          <!-- Contacts will be loaded here -->
+        </div>
+        <select id="emergencyType" class="w-full mb-3 p-3 rounded bg-gray-700">
+          <option value="Kesehatan">Kesehatan</option>
+          <option value="Keamanan">Keamanan</option>
+          <option value="Kebakaran">Kebakaran</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+        <textarea id="emergencyMessage" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="Pesan darurat..." rows="2"></textarea>
+        <label class="block text-sm mb-2">Foto (opsional)</label>
+        <input id="emergencyPhoto" type="file" accept="image/*" class="w-full mb-4 p-2 rounded bg-gray-700">
+        <div class="flex gap-2">
+          <button onclick="sendEmergency()" class="flex-1 bg-red-600 p-3 rounded">Kirim Alert</button>
+          <button onclick="closeModal('emergencyModal')" class="flex-1 bg-gray-600 p-3 rounded">Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO MODAL -->
+    <div id="infoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-gray-800 p-6 rounded-lg w-11/12 max-w-md max-h-screen overflow-y-auto">
+        <h3 class="text-lg font-bold mb-4">Informasi RT</h3>
+        <div id="infoContent">
+          <!-- Info will be loaded here -->
+        </div>
+        <button onclick="closeModal('infoModal')" class="w-full mt-4 bg-gray-600 p-3 rounded">Tutup</button>
+      </div>
+    </div>
+
+    <!-- NOTIF SECTION -->
+    <div id="notifSection" class="hidden">
+      <h2 class="text-lg font-bold mb-4">🔔 Notifikasi</h2>
+      <div id="notifList" class="space-y-2">
+        <!-- Contoh item notif -->
+        <div class="bg-gray-800 p-3 rounded-lg">
+          <p class="text-sm">🚨 Panic Alert dari No. 5 - 10 menit lalu</p>
+          <button class="text-xs text-blue-400 mt-1">Tandai Dibaca</button>
+        </div>
+        <div class="bg-gray-800 p-3 rounded-lg">
+          <p class="text-sm">📢 Pengumuman: Rapat warga hari ini pukul 19:00</p>
+        </div>
+      </div>
+      <p id="noNotif" class="text-gray-400 text-sm mt-4">Belum ada notifikasi baru.</p>
+    </div>
+
+    <!-- PROFILE SECTION -->
+    <div id="profileSection" class="hidden">
+      <h2 class="text-lg font-bold mb-4">👤 Profil Saya</h2>
+      <div class="bg-gray-800 p-4 rounded-xl mb-4">
+        <p><strong>Nama:</strong> <span id="profileNama"></span></p>
+        <p><strong>No Rumah:</strong> <span id="profileRumah"></span></p>
+        <p><strong>No HP:</strong> <span id="profileHp"></span></p>
+        <p><strong>Status:</strong> <span id="profileStatus"></span></p>
+      </div>
+      <button onclick="editProfile()" class="bg-blue-600 p-2 rounded text-sm">Edit Profil</button>
+      <button onclick="logout()" class="bg-red-600 p-2 rounded text-sm ml-2">Logout</button>
     </div>
 
   </div>
@@ -118,12 +221,13 @@
     <span>Home</span>
   </button>
 
-  <button onclick="highlightNav('btnNotif')" id="btnNotif" class="flex flex-col items-center p-2 rounded-lg transition">
+  <button onclick="showNotif()" id="btnNotif" class="relative flex flex-col items-center p-2 rounded-lg transition">
     🔔
     <span>Notif</span>
+    <span id="notifBadge" class="hidden absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-[10px] font-semibold px-1.5 rounded-full">0</span>
   </button>
 
-  <button onclick="highlightNav('btnProfile')" id="btnProfile" class="flex flex-col items-center p-2 rounded-lg transition">
+  <button onclick="showProfile()" id="btnProfile" class="flex flex-col items-center p-2 rounded-lg transition">
     👤
     <span>Profil</span>
   </button>

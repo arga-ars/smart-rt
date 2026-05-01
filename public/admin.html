@@ -23,33 +23,117 @@
 
 <h2 class="text-2xl font-bold mb-4">🚨 Admin Dashboard</h2>
 
-<!-- FILTER -->
-<div class="mb-4 flex gap-2">
-  <button onclick="setFilter('all')" class="px-3 py-1 bg-gray-700 rounded">All</button>
-  <button onclick="setFilter('pending')" class="px-3 py-1 bg-yellow-600 rounded">Pending</button>
-  <button onclick="setFilter('approved')" class="px-3 py-1 bg-green-600 rounded">Approved</button>
+<!-- TABS -->
+<div class="mb-4">
+  <div class="flex border-b border-gray-700 overflow-x-auto">
+    <button onclick="showTab('panic')" id="tabPanic" class="px-4 py-2 bg-gray-800 text-white border-b-2 border-blue-500 whitespace-nowrap">🚨 Panic Log</button>
+    <button onclick="showTab('users')" id="tabUsers" class="px-4 py-2 bg-gray-800 text-white whitespace-nowrap">👥 Data Warga</button>
+    <button onclick="showTab('reports')" id="tabReports" class="px-4 py-2 bg-gray-800 text-white whitespace-nowrap">📢 Laporan</button>
+    <button onclick="showTab('guests')" id="tabGuests" class="px-4 py-2 bg-gray-800 text-white whitespace-nowrap">🏠 Tamu</button>
+    <button onclick="showTab('emergencies')" id="tabEmergencies" class="px-4 py-2 bg-gray-800 text-white whitespace-nowrap">🚨 Darurat</button>
+    <button onclick="showTab('info')" id="tabInfo" class="px-4 py-2 bg-gray-800 text-white whitespace-nowrap">ℹ️ Info</button>
+    <button onclick="showTab('announcement')" id="tabAnnouncement" class="px-4 py-2 bg-gray-800 text-white whitespace-nowrap">📢 Pengumuman</button>
+  </div>
 </div>
 
-<!-- PANIC -->
-<h3 class="text-lg font-bold mb-2">🚨 Panic Log</h3>
-<ul id="panicList" class="mb-6 space-y-1"></ul>
+<!-- PANIC TAB -->
+<div id="panicTab" class="tab-content">
+  <table class="w-full text-sm border border-gray-700 mb-6">
+    <thead class="bg-gray-800">
+      <tr>
+        <th class="p-2">Nama</th>
+        <th>No Rumah</th>
+        <th>No HP</th>
+        <th>Waktu</th>
+      </tr>
+    </thead>
+    <tbody id="panicTable"></tbody>
+  </table>
+</div>
 
-<!-- TABLE -->
-<h3 class="text-lg font-bold mb-2">👥 Data Warga</h3>
+<!-- USERS TAB -->
+<div id="usersTab" class="tab-content hidden">
+    <!-- FILTER -->
+  <div class="mb-4 flex gap-2">
+    <button onclick="setFilter('all')" class="px-3 py-1 bg-gray-700 rounded">All</button>
+    <button onclick="setFilter('pending')" class="px-3 py-1 bg-yellow-600 rounded">Pending</button>
+    <button onclick="setFilter('approved')" class="px-3 py-1 bg-green-600 rounded">Approved</button>
+  </div>
 
-<table class="w-full text-sm border border-gray-700">
-  <thead class="bg-gray-800">
-    <tr>
-      <th class="p-2">Username</th>
-      <th>Nama</th>
-      <th>No Rumah</th>
-      <th>No HP</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody id="userTable"></tbody>
-</table>
+  <table class="w-full text-sm border border-gray-700">
+    <thead class="bg-gray-800">
+      <tr>
+        <th class="p-2">Username</th>
+        <th>Nama</th>
+        <th>No Rumah</th>
+        <th>No HP</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="userTable"></tbody>
+  </table>
+</div>
+
+<!-- REPORTS TAB -->
+<div id="reportsTab" class="tab-content hidden">
+  <table class="w-full text-sm border border-gray-700">
+    <thead class="bg-gray-800">
+      <tr>
+        <th class="p-2">Username</th>
+        <th>Kategori</th>
+        <th>Deskripsi</th>
+        <th>Lokasi</th>
+        <th>Waktu</th>
+      </tr>
+    </thead>
+    <tbody id="reportsTable"></tbody>
+  </table>
+</div>
+
+<!-- GUESTS TAB -->
+<div id="guestsTab" class="tab-content hidden">
+  <table class="w-full text-sm border border-gray-700">
+    <thead class="bg-gray-800">
+      <tr>
+        <th class="p-2">Username</th>
+        <th>Nama Tamu</th>
+        <th>No HP</th>
+        <th>Tujuan</th>
+        <th>No Rumah</th>
+        <th>Waktu</th>
+      </tr>
+    </thead>
+    <tbody id="guestsTable"></tbody>
+  </table>
+</div>
+
+<!-- EMERGENCIES TAB -->
+<div id="emergenciesTab" class="tab-content hidden">
+  <table class="w-full text-sm border border-gray-700">
+    <thead class="bg-gray-800">
+      <tr>
+        <th class="p-2">Username</th>
+        <th>Tipe</th>
+        <th>Pesan</th>
+        <th>Waktu</th>
+      </tr>
+    </thead>
+    <tbody id="emergenciesTable"></tbody>
+  </table>
+</div>
+
+<!-- INFO TAB -->
+<div id="infoTab" class="tab-content hidden">
+  <textarea id="infoContent" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="Isi informasi..." rows="8"></textarea>
+  <button onclick="saveInfo()" class="bg-blue-600 px-4 py-2 rounded">Simpan</button>
+</div>
+
+<!-- ANNOUNCEMENT TAB -->
+<div id="announcementTab" class="tab-content hidden">
+  <textarea id="announcementContent" class="w-full mb-3 p-3 rounded bg-gray-700" placeholder="Isi pengumuman..." rows="8"></textarea>
+  <button onclick="saveAnnouncement()" class="bg-blue-600 px-4 py-2 rounded">Simpan</button>
+</div>
 
 <div id="connStatus" class="fixed bottom-2 left-1/2 -translate-x-1/2 text-gray-200 text-sm bg-gray-800 px-3 py-1 rounded-lg shadow">
   Disconnected

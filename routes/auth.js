@@ -2,6 +2,7 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+const auth = require('../middleware/auth')
 const sendTelegram = require('../services/telegram')
 
 const router = express.Router()
@@ -49,7 +50,8 @@ router.post('/register', async (req, res) => {
 
     res.json({ message: 'Register berhasil, tunggu verifikasi' })
   } catch (err) {
-    res.status(500).json({ error: 'Server error' })
+    console.error('Register error:', err.message)
+    res.status(500).json({ error: 'Server error', details: err.message })
   }
 })
 
@@ -70,12 +72,40 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign(
       { id: user._id, username: user.username },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '90d' }
     )
 
-    res.json({ token, user: user.username, nama: user.nama, status: user.status })
-  } catch {
-    res.status(500).json({ error: 'Server error' })
+    res.json({
+      token,
+      user: user.username,
+      nama: user.nama,
+      status: user.status,
+      no_rumah: user.no_rumah,
+      no_hp: user.no_hp
+    })
+  } catch (err) {
+    console.error('Login error:', err.message)
+    res.status(500).json({ error: 'Server error', details: err.message })
+  }
+})
+
+router.post('/update-profile', auth, async (req, res) => {
+  try {
+    const { nama } = req.body
+    if (!nama) return res.status(400).json({ error: 'Nama dibutuhkan' })
+
+    const updated = await User.findByIdAndUpdate(
+      req.user.id,
+      { nama },
+      { new: true }
+    ).select('-password')
+
+    if (!updated) return res.status(404).json({ error: 'User tidak ditemukan' })
+
+    res.json({ success: true, user: updated })
+  } catch (err) {
+    console.error('Update profile error:', err.message)
+    res.status(500).json({ error: 'Server error', details: err.message })
   }
 })
 
