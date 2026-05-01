@@ -261,7 +261,7 @@ function addPanicToTable(data, prepend = true) {
 
 async function loadReports() {
   try {
-    const res = await fetch('/admin/reports', {
+    const res = await fetch('/report/admin', {
       headers: { 'x-admin-key': adminKey }
     });
 

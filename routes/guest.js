@@ -1,13 +1,14 @@
 const express = require('express')
+const multer = require('multer') 
 const auth = require('../middleware/auth')
 const Guest = require('../models/Guest')
 const User = require('../models/User')
 const sendTelegram = require('../services/telegram')
-
+const upload = multer() // pakai memory storage, tanpa simpan file
 const router = express.Router()
 
 // Submit guest entry
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, upload.single('photo'), async (req, res) => {
   try {
     const { guestName, guestPhone, purpose, houseNumber } = req.body
     const user = req.user
@@ -27,7 +28,9 @@ router.post('/', auth, async (req, res) => {
 
     res.json({ message: 'Guest entry recorded', guest })
   } catch (err) {
-    res.status(500).json({ error: 'Failed to record guest entry' })
+    console.error('Guest entry error:', err)
+    res.status(500).json({ error: err.message }) // ubah ini sementara
+    // res.status(500).json({ error: 'Failed to record guest entry' })
   }
 })
 
@@ -37,7 +40,9 @@ router.get('/', auth, async (req, res) => {
     const guests = await Guest.find().sort({ time: -1 }).limit(100)
     res.json(guests)
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch guests' })
+    console.error('Guest fetch error:', err)
+    res.status(500).json({ error: err.message }) // ubah ini sementara
+    // res.status(500).json({ error: 'Failed to fetch guests' })
   }
 })
 

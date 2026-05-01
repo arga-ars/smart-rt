@@ -1,9 +1,10 @@
 const express = require('express')
+const multer = require('multer')
 const auth = require('../middleware/auth')
 const Emergency = require('../models/Emergency')
 const User = require('../models/User')
 const sendTelegram = require('../services/telegram')
-
+const upload = multer()
 const router = express.Router()
 
 // Emergency contacts
@@ -18,7 +19,7 @@ router.get('/contacts', auth, (req, res) => {
 })
 
 // Send emergency alert
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, upload.single('photo'), async (req, res) => {
   try {
     const { type, message } = req.body
     const user = req.user
@@ -36,7 +37,9 @@ router.post('/', auth, async (req, res) => {
 
     res.json({ message: 'Emergency alert sent', emergency })
   } catch (err) {
-    res.status(500).json({ error: 'Failed to send emergency alert' })
+    console.error('Emergency error:', err)
+    res.status(500).json({ error: err.message }) // ubah ini sementara
+    // res.status(500).json({ error: 'Failed to send emergency alert' })
   }
 })
 
@@ -46,7 +49,9 @@ router.get('/list', auth, async (req, res) => {
     const emergencies = await Emergency.find().sort({ time: -1 }).limit(100)
     res.json(emergencies)
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch emergencies' })
+    console.error('Emergency fetch error:', err)
+    res.status(500).json({ error: err.message }) // ubah ini sementara
+    // res.status(500).json({ error: 'Failed to fetch emergencies' })
   }
 })
 

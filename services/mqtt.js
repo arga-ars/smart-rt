@@ -3,8 +3,8 @@ const mqtt = require('mqtt')
 const client = mqtt.connect(process.env.MQTT_URL, {
   username: process.env.MQTT_USER,
   password: process.env.MQTT_PASS,
-  reconnectPeriod: 5000,
-  connectTimeout: 10000,
+  reconnectPeriod: 500000,// ars - 5000
+  connectTimeout: 1000000,// ars - 10000
   will: { topic: 'rt/status', payload: 'offline' }
 })
 

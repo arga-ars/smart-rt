@@ -6,16 +6,19 @@ const sendTelegram = require('../services/telegram')
 
 const router = express.Router()
 
-// Submit report
-router.post('/', auth, async (req, res) => {
+const multer = require('multer')
+const upload = multer() // pakai memory storage, tanpa simpan file// Submit report
+
+router.post('/', auth, upload.single('photo'), async (req, res) => {
   try {
+    console.log('req.body:', req.body)      // cek data masuk
+    
     // Handle both JSON and FormData
     const { category, description, location } = req.body
-    const user = req.user
     const userData = await User.findById(req.user.id)
 
     const report = await Report.create({
-      username: user.username,
+      username: userData.username,
       category,
       description,
       location,
@@ -23,18 +26,25 @@ router.post('/', auth, async (req, res) => {
     })
 
     await sendTelegram(
-      `📢 <b>LAPORAN BARU</b>\n\nKategori: ${category}\nDeskripsi: ${description}\nLokasi: ${location}\nDari: ${user.username}\nWaktu: ${new Date().toLocaleString('id-ID')}`,
+      `📢 <b>LAPORAN BARU</b>\n\nKategori: ${category}\nDeskripsi: ${description}\nLokasi: ${location}\nDari: ${userData.username}\nWaktu: ${new Date().toLocaleString('id-ID')}`,
       'admin'
     )
 
     res.json({ message: 'Report submitted successfully', report })
   } catch (err) {
-    res.status(500).json({ error: 'Failed to submit report' })
+    console.error('Report error:', err)     // <-- ini yang paling penting!
+    res.status(500).json({ error: err.message })  // ubah ini sementara
+    // res.status(500).json({ error: 'Failed to submit report' })
   }
 })
 
-// Get all reports (admin only)
-router.get('/', auth, async (req, res) => {
+// Get all reports (admin only) - pakai admin key
+router.get('/admin', async (req, res) => {
+  const adminKey = req.headers['x-admin-key']
+  if (adminKey !== process.env.ADMIN_KEY) {
+    return res.status(403).json({ error: 'Forbidden' })
+  }
+
   try {
     const reports = await Report.find().sort({ time: -1 }).limit(100)
     res.json(reports)
