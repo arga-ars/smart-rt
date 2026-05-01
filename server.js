@@ -8,6 +8,8 @@ const connectDB = require('./config/db')
 const mqttClient = require('./services/mqtt')
 const sendTelegram = require('./services/telegram')
 
+const deployRoute = require('./routes/deploy')
+
 const User = require('./models/User')
 const Guest = require('./models/Guest')
 const Emergency = require('./models/Emergency')
@@ -37,6 +39,7 @@ app.use('/guest', require('./routes/guest'))
 app.use('/info', require('./routes/info'))
 app.use('/announcement', require('./routes/announcement'))
 app.use('/admin', require('./routes/admin'))
+app.use('/deploy', deployRoute)
 
 app.use(express.static('public'))
 
