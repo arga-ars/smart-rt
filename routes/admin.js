@@ -41,7 +41,7 @@ router.post('/approve', admin, async (req, res) => {
     const user = await User.findOneAndUpdate(
       { username },
       { status: 'approved' },
-      { new: true }
+      { returnDocument: 'after' }
     )
 
     if (!user) return res.status(404).json({ error: 'User not found' })
@@ -75,7 +75,7 @@ router.patch('/user/:username/suspend', admin, async (req, res) => {
     const user = await User.findOneAndUpdate(
       { username },
       { status: 'suspended' },
-      { new: true }
+      { returnDocument: 'after' }
     )
 
     if (!user) return res.status(404).json({ error: 'User not found' })
@@ -93,7 +93,7 @@ router.patch('/user/:username/unsuspend', admin, async (req, res) => {
     const user = await User.findOneAndUpdate(
       { username },
       { status: 'approved' },
-      { new: true }
+      { returnDocument: 'after' }
     )
 
     if (!user) return res.status(404).json({ error: 'User not found' })
