@@ -32,7 +32,10 @@ function showTab(tab) {
   document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('border-b-2', 'border-blue-500');
 
   loadData();
+  console.log('Switched to tab:', tab);
 }
+
+window.showTab = showTab; // make it global so it can be called from HTML
 
 // Set admin key
 function setAdminKey() {
