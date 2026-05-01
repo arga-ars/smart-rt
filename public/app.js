@@ -215,7 +215,7 @@ async function login() {
   }
 }
 
-async function loadAnnouncement() {
+window.loadAnnouncement = async function() {
   try {
     const res = await fetch('/announcement', { 
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } 
@@ -318,7 +318,7 @@ function updateNotifBadge(count) {
   }
 }
 
-async function fetchNotificationCount() {
+window.fetchNotificationCount = async function() {
   const token = localStorage.getItem('token');
   if (!token) {
     updateNotifBadge(0);
@@ -401,7 +401,7 @@ function showNotif() {
   loadNotifications();
 }
 
-async function loadNotifications() {
+window.loadNotifications = async function() {
   const listEl = document.getElementById('notifList');
   const noNotifEl = document.getElementById('noNotif');
 
@@ -449,12 +449,12 @@ function showGuest() {
   document.getElementById('guestModal').classList.remove('hidden');
 }
 
-function showEmergency() {
+window.showEmergency = async function() {
   if (!currentUser) {
     alert('Login dulu!');
     return;
   }
-  loadEmergencyContacts();
+  await window.loadEmergencyContacts();
   document.getElementById('emergencyModal').classList.remove('hidden');
 }
 
@@ -463,7 +463,7 @@ function showInfo() {
     alert('Login dulu!');
     return;
   }
-  loadInfo();
+  window.loadInfo();
   document.getElementById('infoModal').classList.remove('hidden');
 }
 
