@@ -8,6 +8,14 @@ const connectDB = require('./config/db')
 const mqttClient = require('./services/mqtt')
 const sendTelegram = require('./services/telegram')
 
+const User = require('./models/User')
+const Guest = require('./models/Guest')
+const Emergency = require('./models/Emergency')
+const Panic = require('./models/Panic')
+const Report = require('./models/Report')
+const Info = require('./models/Info')
+const Announcement = require('./models/Announcement')
+
 const app = express()
 const server = http.createServer(app)
 const io = new Server(server, { 
