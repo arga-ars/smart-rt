@@ -110,7 +110,7 @@ async function register() {
   const nama = document.getElementById('nama').value;
   const no_rumah = document.getElementById('no_rumah').value;
 
-  const res = await fetch('/auth/register', {
+  const res = await window.fetch('/auth/register', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ username, password, nama, no_rumah, no_hp })
@@ -137,7 +137,7 @@ async function register() {
 // ===== DEV DUMMY LOGIN =====
 async function loginDev() {
   // Cek jika DEV_MODE diaktifkan via API
-  const devCheckRes = await fetch('/auth/dev-check');
+  const devCheckRes = await window.fetch('/auth/dev-check');
   const { devMode } = await devCheckRes.json();
   
   if (!devMode) {
@@ -182,7 +182,7 @@ async function login() {
     return;
   }
 
-  const res = await fetch('/auth/login', {
+  const res = await window.fetch('/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password })
@@ -217,7 +217,7 @@ async function login() {
 
 window.loadAnnouncement = async function() {
   try {
-    const res = await fetch('/announcement', { 
+    const res = await window.fetch('/announcement', { 
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } 
     });
     if (!res.ok) throw new Error('Failed to load announcement');
@@ -326,7 +326,7 @@ window.fetchNotificationCount = async function() {
   }
 
   try {
-    const res = await fetch('/notif', { headers: { 'Authorization': `Bearer ${token}` } });
+    const res = await window.fetch('/notif', { headers: { 'Authorization': `Bearer ${token}` } });
     if (!res.ok) {
       updateNotifBadge(0);
       return;
@@ -371,7 +371,7 @@ async function panic() {
   }
 
   const token = localStorage.getItem('token');
-  const res = await fetch('/panic', {
+  const res = await window.fetch('/panic', {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
@@ -406,7 +406,7 @@ window.loadNotifications = async function() {
   const noNotifEl = document.getElementById('noNotif');
 
   try {
-    const res = await fetch('/notif', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
+    const res = await window.fetch('/notif', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
     if (!res.ok) throw new Error('Failed to load notifications');
     const data = await res.json();
 
@@ -492,7 +492,7 @@ window.submitReport = async function() {
       formData.append('photo', photoInput.files[0]);
     }
 
-    const res = await fetch('/report', {
+    const res = await window.fetch('/report', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -534,7 +534,7 @@ window.submitGuest = async function() {
       formData.append('photo', photoInput.files[0]);
     }
 
-    const res = await fetch('/guest', {
+    const res = await window.fetch('/guest', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -576,7 +576,7 @@ window.sendEmergency = async function() {
       formData.append('photo', photoInput.files[0]);
     }
 
-    const res = await fetch('/emergency', {
+    const res = await window.fetch('/emergency', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -596,7 +596,7 @@ window.sendEmergency = async function() {
 
 window.loadEmergencyContacts = async function() {
   try {
-    const res = await fetch('/emergency/contacts', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
+    const res = await window.fetch('/emergency/contacts', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
     const data = await res.json();
     const contactsEl = document.getElementById('emergencyContacts');
     contactsEl.innerHTML = data.contacts.map(c => `
@@ -612,7 +612,7 @@ window.loadEmergencyContacts = async function() {
 
 window.loadInfo = async function() {
   try {
-    const res = await fetch('/info', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
+    const res = await window.fetch('/info', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
     const data = await res.json();
     const infoEl = document.getElementById('infoContent');
     infoEl.textContent = data.content || 'Belum ada informasi';
