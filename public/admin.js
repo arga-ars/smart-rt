@@ -12,19 +12,19 @@ socket.on('panic', (data) => {
   showEmergency(data);
 });
 
-function showEmergency(data) {
+window.showEmergency = function(data) {
   document.getElementById('emergencyOverlay').classList.remove('hidden');
   document.getElementById('emergencyText').innerHTML =
     `<b>PANIC ALERT!</b><br>Nama: ${data.nama}<br>Rumah: ${data.no_rumah}<br>HP: ${data.no_hp}`;
 }
 
-function ackEmergency() {
+window.ackEmergency = function() {
   currentEmergency = null;
   document.getElementById('emergencyOverlay').classList.add('hidden');
 }
 
 // Tab functions
-function showTab(tab) {
+window.showTab = function(tab) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
   document.getElementById(tab + 'Tab').classList.remove('hidden');
   
@@ -35,10 +35,8 @@ function showTab(tab) {
   console.log('Switched to tab:', tab);
 }
 
-window.showTab = showTab; // make it global so it can be called from HTML
-
 // Set admin key
-function setAdminKey() {
+window.setAdminKey = function() {
   const key = prompt('Masukkan Admin Key:');
   if (key) {
     adminKey = key;
@@ -49,7 +47,7 @@ function setAdminKey() {
 }
 
 // load pending users
-async function loadPending() {
+window.loadPending = async function() {
   try {
     const res = await fetch('/admin/pending', {
       headers: { 'x-admin-key': adminKey }
@@ -84,7 +82,7 @@ async function loadPending() {
   }
 }
 
-async function loadData() {
+window.loadData = async function() {
   loadUsers();
   loadPanic();
   loadPending();
@@ -95,7 +93,7 @@ async function loadData() {
   loadAnnouncement();
 }
 
-async function approve(username) {
+window.approve = async function(username) {
   try {
     const res = await fetch('/admin/approve', {
       method: 'POST',
@@ -114,7 +112,7 @@ async function approve(username) {
   }
 }
 
-async function deleteUser(username) {
+window.deleteUser = async function(username) {
   if (!confirm('Hapus user ini?')) return;
 
   try {
@@ -131,7 +129,7 @@ async function deleteUser(username) {
   }
 }
 
-async function suspendUser(username) {
+window.suspendUser = async function(username) {
   if (!confirm('Suspend user ini?')) return;
 
   try {
@@ -148,7 +146,7 @@ async function suspendUser(username) {
   }
 }
 
-async function unsuspendUser(username) {
+window.unsuspendUser = async function(username) {
   if (!confirm('Unsuspend user ini?')) return;
 
   try {
@@ -165,7 +163,7 @@ async function unsuspendUser(username) {
   }
 }
 
-async function loadUsers() {
+window.loadUsers = async function() {
   try {
     const res = await fetch('/admin/users', {
       headers: { 'x-admin-key': adminKey }
@@ -221,7 +219,7 @@ async function loadUsers() {
   }
 }
 
-async function loadPanic() {
+window.loadPanic = async function() {
   try {
     const res = await fetch('/admin/panic', {
       headers: { 'x-admin-key': adminKey }
@@ -264,7 +262,7 @@ function addPanicToTable(data, prepend = true) {
   }
 }
 
-async function loadReports() {
+window.loadReports = async function() {
   try {
     const res = await fetch('/report/admin', {
       headers: { 'x-admin-key': adminKey }
@@ -296,7 +294,7 @@ async function loadReports() {
   }
 }
 
-async function loadGuests() {
+window.loadGuests = async function() {
   try {
     const res = await fetch('/admin/guests', {
       headers: { 'x-admin-key': adminKey }
@@ -329,7 +327,7 @@ async function loadGuests() {
   }
 }
 
-async function loadEmergencies() {
+window.loadEmergencies = async function() {
   try {
     const res = await fetch('/admin/emergencies', {
       headers: { 'x-admin-key': adminKey }
@@ -360,7 +358,7 @@ async function loadEmergencies() {
   }
 }
 
-async function loadInfo() {
+window.loadInfo = async function() {
   try {
     const res = await fetch('/admin/info', {
       headers: { 'x-admin-key': adminKey }
