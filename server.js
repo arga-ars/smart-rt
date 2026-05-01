@@ -26,7 +26,6 @@ connectDB()
 
 app.use(cors({ origin: process.env.ALLOWED_ORIGINS || '*' }))
 app.use(express.json())
-app.use(express.static('public'))
 
 // Routes
 app.use('/auth', require('./routes/auth'))
@@ -38,6 +37,8 @@ app.use('/guest', require('./routes/guest'))
 app.use('/info', require('./routes/info'))
 app.use('/announcement', require('./routes/announcement'))
 app.use('/admin', require('./routes/admin'))
+
+app.use(express.static('public'))
 
 // realtime
 mqttClient.on('message', (topic, message) => {
