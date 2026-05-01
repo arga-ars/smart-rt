@@ -472,7 +472,7 @@ function closeModal(modalId) {
 }
 
 // ===== SUBMIT FUNCTIONS =====
-async function submitReport() {
+window.submitReport = async function() {
   const category = document.getElementById('reportCategory').value;
   const description = document.getElementById('reportDescription').value;
   const location = document.getElementById('reportLocation').value;
@@ -512,7 +512,7 @@ async function submitReport() {
   }
 }
 
-async function submitGuest() {
+window.submitGuest = async function() {
   const guestName = document.getElementById('guestName').value;
   const guestPhone = document.getElementById('guestPhone').value;
   const purpose = document.getElementById('guestPurpose').value;
@@ -556,7 +556,7 @@ async function submitGuest() {
   }
 }
 
-async function sendEmergency() {
+window.sendEmergency = async function() {
   const type = document.getElementById('emergencyType').value;
   const message = document.getElementById('emergencyMessage').value;
   const photoInput = document.getElementById('emergencyPhoto');
@@ -594,7 +594,7 @@ async function sendEmergency() {
   }
 }
 
-async function loadEmergencyContacts() {
+window.loadEmergencyContacts = async function() {
   try {
     const res = await fetch('/emergency/contacts', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
     const data = await res.json();
@@ -610,7 +610,7 @@ async function loadEmergencyContacts() {
   }
 }
 
-async function loadInfo() {
+window.loadInfo = async function() {
   try {
     const res = await fetch('/info', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
     const data = await res.json();
