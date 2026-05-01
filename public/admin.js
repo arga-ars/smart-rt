@@ -30,6 +30,8 @@ function showTab(tab) {
   
   document.querySelectorAll('[id^="tab"]').forEach(btn => btn.classList.remove('border-b-2', 'border-blue-500'));
   document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('border-b-2', 'border-blue-500');
+
+  loadData();
 }
 
 // Set admin key

@@ -615,9 +615,9 @@ async function loadInfo() {
     const res = await fetch('/info', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } });
     const data = await res.json();
     const infoEl = document.getElementById('infoContent');
-    infoEl.innerHTML = `<p>${data.content || 'Belum ada informasi'}</p>`;
+    infoEl.textContent = data.content || 'Belum ada informasi';
   } catch (err) {
-    document.getElementById('infoContent').innerHTML = '<p class="text-red-400">Gagal memuat informasi</p>';
+    document.getElementById('infoContent').textContent = 'Gagal memuat informasi';
   }
 }
 
